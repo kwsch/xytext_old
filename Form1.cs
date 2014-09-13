@@ -94,20 +94,20 @@ namespace xytextreader
 
                         switch (tvcode)
                         {
-                            case 0xBE00:
-                            case 0xBE01:
+                            case 0xBE00: // "Waitbutton then scroll text;; \r"
+                            case 0xBE01: // "Waitbutton then clear text;; \r"
                                 { line += buttonnew; c -= 2; break; }
-                            case 0xBE02:
+                            case 0xBE02: // Dramatic pause for a text line. New!
                                 { line += "[Wait: " + vals[c / 2].ToString() + "]"; c += 2; break; }
-                            case 0xBDFF:
+                            case 0xBDFF: // Empty Text line? Includes linenum so maybe for betatest finding used-unused lines?
                                 { line += "[-" + vals[c / 2].ToString() + "-]"; break; }
                             default:
                                 {
                                     string tvname = tvcode.ToString("X4");
-                                    switch (tvcode)
+                                    switch (tvcode) // get variable's info name
                                     {
-                                        case 0xFF00: tvname = "COLOR"; break;
-                                        case 0x0100: tvname = "TRNAME"; break;
+                                        case 0xFF00: tvname = "COLOR"; break; // Change text line color (0 = white, 1 = red, 2 = blue...)
+                                        case 0x0100: tvname = "TRNAME"; break; // 
                                         case 0x0101: tvname = "PKNAME"; break;
                                         case 0x0102: tvname = "PKNICK"; break;
                                         case 0x0103: tvname = "TYPE"; break;
@@ -154,7 +154,7 @@ namespace xytextreader
                                         case 0x0206: tvname = "NUM7"; break;
                                         case 0x0207: tvname = "NUM8"; break;
                                         case 0x0208: tvname = "NUM9"; break;
-                                        case 0xBDFF: tv = "["; tvname = ""; break;
+                                        //case 0xBDFF: tv = "["; tvname = ""; break; // now handled above 
                                         default: break;
                                     }
                                     tv += tvname;
